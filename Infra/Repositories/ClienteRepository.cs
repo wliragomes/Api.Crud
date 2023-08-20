@@ -18,6 +18,11 @@ namespace Infra.Repositories
             await _context.AddAsync(entity);
         }
 
+        public async Task UpdateAsync(Cliente entity)
+        {
+            _context. Update(entity);
+        }
+        
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

@@ -5,6 +5,6 @@ namespace Application.Interfaces.Queries
     public interface IClienteQuery
     {
         Task<ClienteDto> GetById(Guid id);
-        Task<PaginationResponse<ClienteGetFilterQueryDto>> GetFilter(PaginationRequest paginationRequest);
+        Task<PaginationResponse<ClienteDto>> GetFilter(PaginationRequest paginationRequest);
     }
 }
