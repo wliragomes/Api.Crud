@@ -1,8 +1,10 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Queries;
 using Application.Services;
+using Domain.Interfaces;
 using Infra.Context;
 using Infra.Queries;
+using Infra.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
@@ -22,6 +24,10 @@ public static class DependencyInjectionApi
 
         #region Queries
         services.AddScoped<IClienteQuery, ClienteQuery>();
+        #endregion
+
+        #region Repository
+        services.AddScoped<IClienteRepository, ClienteRepository>();
         #endregion
 
         return services;
