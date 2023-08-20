@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Interfaces.Queries;
+using Domain.Entities;
 using Infra.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,24 +15,14 @@ namespace Infra.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<ClienteDto?> GetById(Guid id)
+        public async Task<List<Cliente?>?> Get()
         {
-            var cliente = await _dbContext.Cliente
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var cliente = _dbContext.Cliente.AsNoTracking().ToList();
 
             if (cliente == null)
                 return null;
 
-            var clienteDto = new ClienteDto
-            {
-                Id = cliente.Id,
-                CPF = cliente.CPF,
-                Nome = cliente.Nome,
-                Email = cliente.Email
-            };
-
-            return clienteDto;
+            return cliente;
         }
 
         public async Task<PaginationResponse<ClienteDto>> GetFilter(PaginationRequest paginationRequest)
@@ -65,5 +56,24 @@ namespace Infra.Queries
             return paginationResponse;
         }
 
+        public async Task<ClienteDto?> GetById(Guid id)
+        {
+            var cliente = await _dbContext.Cliente
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (cliente == null)
+                return null;
+
+            var clienteDto = new ClienteDto
+            {
+                Id = cliente.Id,
+                CPF = cliente.CPF,
+                Nome = cliente.Nome,
+                Email = cliente.Email
+            };
+
+            return clienteDto;
+        }
     }
 }

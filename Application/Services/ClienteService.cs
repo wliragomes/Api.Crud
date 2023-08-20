@@ -16,24 +16,24 @@ namespace Application.Services
             _clienteRepository = clienteRepository;
         }
 
-        public async Task<bool> Add(AddUpdateClienteDto addClienteDto)
+        public async Task<Cliente> Add(AddClienteDto addClienteDto)
         {
             var cliente = new Cliente(new Guid(), addClienteDto.CPF, addClienteDto.Nome, addClienteDto.Email);
 
             await _clienteRepository.AddAsync(cliente);
             await _clienteRepository.SaveChangesAsync();
 
-            return true;
+            return cliente;
         }
 
-        public async Task Update(Guid Id, AddUpdateClienteDto clienteDto)
+        public async Task Update(UpdateClienteDto updateClienteDto)
         {
-            var cliente = await _clienteQuery.GetById(Id);
+            var cliente = await _clienteQuery.GetById(updateClienteDto.Id);
 
             if (cliente == null)
                 throw new ArgumentException("Cliente não encontrado");
 
-            var updateCliente = new Cliente(Id, clienteDto.CPF, clienteDto.Nome, clienteDto.Email);
+            var updateCliente = new Cliente(updateClienteDto.Id, updateClienteDto.CPF, updateClienteDto.Nome, updateClienteDto.Email);
 
             await _clienteRepository.Update(updateCliente);
             await _clienteRepository.SaveChangesAsync();
@@ -45,6 +45,11 @@ namespace Application.Services
             await _clienteRepository.SaveChangesAsync();
 
             return retorno;
+        }
+
+        public async Task<List<Cliente>> Get()
+        {
+            return await _clienteQuery.Get();
         }
 
         public async Task<PaginationResponse<ClienteDto>> GetFilter(PaginationRequest paginationRequest)
