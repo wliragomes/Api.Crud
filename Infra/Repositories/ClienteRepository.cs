@@ -18,11 +18,23 @@ namespace Infra.Repositories
             await _context.AddAsync(entity);
         }
 
-        public async Task UpdateAsync(Cliente entity)
+        public async Task Update(Cliente entity)
         {
-            _context. Update(entity);
+            _context.Cliente.Update(entity);
         }
-        
+
+        public async Task<bool> DeleteById(Guid Id)
+        {
+            var pessoa = await _context.Cliente.FindAsync(Id);
+            if (pessoa != null)
+            {
+                _context.Cliente.Remove(pessoa);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else { return false; }
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

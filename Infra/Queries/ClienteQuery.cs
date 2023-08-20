@@ -21,7 +21,7 @@ namespace Infra.Queries
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (cliente == null)
-                return null; // Retorna null se o cliente não for encontrado.
+                return null;
 
             var clienteDto = new ClienteDto
             {
